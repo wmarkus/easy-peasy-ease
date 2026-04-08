@@ -1,37 +1,51 @@
 # easy-peasy-ease
 
-Client-side video editor that stitches video segments into seamless loops with custom ease-in/out speed curves and background music. This is a weekend project and has plenty of issues, for best results use desktop chrome or firefox, there is a known issue on Android chrome where frames at the end of each clip are dropped. I am not planning to maintain this project long term. 
+> Client-side video editor that stitches segments into seamless loops with custom ease curves and background music — no server, no upload, runs entirely in the browser.
 
-## Workflow
+Best on desktop Chrome or Firefox. Weekend project — known frame-drop issue on Android Chrome.
 
-Upload video segments → Order and trim → Apply speed curves → Stitch into MP4 → Mix audio → Download
+```mermaid
+flowchart LR
+    U["Upload\nvideo segments"] --> O["Order\n& trim"]
+    O --> B["Apply\nBezier speed curve"]
+    B --> S["Stitch\ninto MP4"]
+    S --> A["Mix\naudio"]
+    A --> D["Download"]
+```
+
+## Features
+
+- **Browser-only** — all encoding via [Mediabunny](https://mediabunny.dev/) (WASM/JS), no server
+- **Custom speed curves** — cubic Bezier editor + presets for ease-in, ease-out, bounce, spring
+- **Audio mixing** — layer background music over the stitched video client-side
+- **Visual timeline** — drag to reorder clips, scrub to trim
+- **Waveform visualization** — see audio shape while mixing
+- **Session-only** — no storage, no account; data is ephemeral
 
 ## Tech Stack
 
-- **Framework**: Next.js 16 App Router + React 19 + TypeScript 5
-- **Styling**: Tailwind CSS 4 + shadcn/ui components + CSS variables
-- **Video Engine**: Mediabunny (client-side WASM/JS processing)
-- **State Management**: React hooks + custom hooks (`useFinalizeVideo`, `useVideoPlayback`, `useAudioVisualization`)
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 16 (App Router) + React 19 |
+| Language | TypeScript 5 |
+| Video engine | Mediabunny (client-side MP4 encoding) |
+| Styling | Tailwind CSS 4 + shadcn/ui |
+| Animation | Motion (Framer Motion) |
+| Testing | Vitest |
 
 ## Getting Started
 
 ```bash
 npm install
-npm run dev
+npm run dev      # localhost:3000
 ```
 
-## Key Features
-
-- **Browser-based**: All processing happens client-side using Mediabunny—no server-side encoding
-- **Speed Curves**: Apply preset or custom Bezier curves for organic motion
-- **Audio Mixing**: Mix background music with video client-side
-- **Session-only**: No persistent storage; all data is ephemeral
-
-## Commands
-
 ```bash
-npm run dev      # Start development server (localhost:3000)
-npm run build    # Build for production
-npm run lint     # Run ESLint
-npm test         # Run Vitest
-``` 
+npm run build    # Production build
+npm run lint     # ESLint
+npm test         # Vitest
+```
+
+## Architecture
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for component breakdown and data flow.
